@@ -12,6 +12,7 @@ let file = 'snapshot.json';
 let readOasis = true;
 let oasisContract = '0x3b968177551a2aD9fc3eA06F2F41d88b22a081F7';
 
+// Enter contract address here
 let oldContract = '...';
 
 // Network of the old contract
