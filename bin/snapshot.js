@@ -20,7 +20,7 @@ let RPC_URL = 'https://smartbch.fountainhead.cash/mainnet';
 let RPC_NETWORK_ID = 10000;
 
 /** Contract reader **/
-var provider = new ethers.providers.JsonRpcProvider(RPC_URL, RPC_NETWORK_ID);
+let provider = new ethers.providers.JsonRpcProvider(RPC_URL, RPC_NETWORK_ID);
 let contract = new ethers.Contract(oldContract, contractABI, provider);
 let marketContract = new ethers.Contract(oasisContract, oasisABI, provider);
 
@@ -74,6 +74,7 @@ let main = async function() {
 
                 // If the data is complete; write file
                 if(data.length == supply) {
+                    console.log('File ' + file + ' written.');
                     fs.writeFileSync(file, JSON.stringify(data));
                 }
             });
