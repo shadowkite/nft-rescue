@@ -5,8 +5,8 @@ let contractABI = require('../artifacts/contracts/MultichainNFT.sol/MultichainNF
 /** CONFIG **/
 let file = 'snapshot.json';
 
-// Export one of your metamask wallet (with required rights and funds, and paste the private key here)
-// On metamask; Click the three dots next to account, then Account Details > Export Private Key
+// Export one of your Metamask wallets (with required rights and funds, and paste the private key here)
+// On Metamask; Click the three dots next to your account (at the top), then Account Details > Export Private Key
 let mintingWallet = '...';
 let newContract = '0x...';
 
