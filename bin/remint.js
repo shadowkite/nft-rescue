@@ -34,7 +34,7 @@ let mint = async function(owner, tokenId) {
 
 for(var i in owners) {
     console.log('Minting ' + owners[i].tokenId + ' to ' + owners[i].owner);
-    // Dry run by default, uncomment next line to actually mint
+    // -- Dry run by default, uncomment next line to actually mint
     // mint(owners[i].address, owners[i].tokenId);
 }
 

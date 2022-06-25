@@ -24,6 +24,7 @@ var provider = new ethers.providers.JsonRpcProvider(RPC_URL, RPC_NETWORK_ID);
 let contract = new ethers.Contract(oldContract, contractABI, provider);
 let marketContract = new ethers.Contract(oasisContract, oasisABI, provider);
 
+// Store ownership data
 let data = [];
 
 let getOasisOwner = async (tokenId) => {
@@ -31,13 +32,17 @@ let getOasisOwner = async (tokenId) => {
         let i = 0;
         let orderInfo = null;
         let result = false;
+
+        // Loop through orders and see which one is still active
         while(!result) {
             result = await (new Promise(resolve => {
                 marketContract.orderIdByToken(oldContract, tokenId, i).then(function (orderId) {
                     marketContract.orderInfo(orderId).then((info) => {
+                        // Order exists; Store order as last active, loop again
                         orderInfo = info;
                         resolve(false);
                     }).catch((e) => {
+                        // Order doesn't exist; it seems we found the last owner
                         resolve(true);
                     });
                 }).catch((e) => {
@@ -46,11 +51,13 @@ let getOasisOwner = async (tokenId) => {
             }));
             i++;
         }
+
+        // If this errors; OASIS seems to be owner? Should not happen
         resolve(orderInfo.seller);
     });
 }
 
-let reader = async function() {
+let main = async function() {
     let supply = await contract.totalSupply();
     for(var i = 0;i < supply;i++) {
         contract.tokenByIndex(i).then((tokenId) => {
@@ -72,11 +79,11 @@ let reader = async function() {
             });
         });
 
-        // Delay to not DDOS the RPC server unintentionally
+        // Add a delay to not DDOS the RPC server unintentionally
         if(i % 10 === 0) {
             await sleep(1000);
         }
     }
 }
 
-reader();
+main();
