@@ -61,8 +61,8 @@ contract MultichainNFT is ERC721Enumerable, Ownable, NonblockingReceiver {
         baseURI = _base;
     }
 
-    function setExtension(string memory ext) external onlyOwner {
-        extension = ext;
+    function setExtension(string memory _ext) external onlyOwner {
+        extension = _ext;
     }
 
     function setEndpoint(address _endpoint) public onlyOwner {

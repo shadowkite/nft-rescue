@@ -49,8 +49,8 @@ contract SimpleNFT is ERC721Enumerable, Ownable {
         baseURI = _base;
     }
 
-    function setExtension(string memory ext) external onlyOwner {
-        extension = ext;
+    function setExtension(string memory _ext) external onlyOwner {
+        extension = _ext;
     }
 
     function withdraw() public payable onlyOwner {
