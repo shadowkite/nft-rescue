@@ -61,15 +61,15 @@ let main = async function() {
     let supply = await contract.totalSupply();
     for(var i = 0;i < supply;i++) {
         contract.tokenByIndex(i).then((tokenId) => {
-            contract.ownerOf(tokenId).then((owner) => {
-                console.log(tokenId.toString(), owner);
+            let strTokenId = tokenId.toString();
+            contract.ownerOf(strTokenId).then(async (owner) => {
                 if(readOasis && owner === oasisContract) {
-                    getOasisOwner(tokenId).then((seller) => {
-                        console.log(tokenId.toString(), owner, seller);
-                        data.push({owner: seller, tokenId: tokenId.toString()});
-                    });
+                    let seller = await getOasisOwner(strTokenId);
+                    console.log(strTokenId, owner, seller);
+                    data.push({owner: seller, tokenId: strTokenId});
                 } else {
-                    data.push({owner: owner, tokenId: tokenId.toString()});
+                    console.log(strTokenId, owner);
+                    data.push({owner: owner, tokenId: strTokenId});
                 }
 
                 // If the data is complete; write file
