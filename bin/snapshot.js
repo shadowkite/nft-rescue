@@ -74,7 +74,7 @@ let main = async function() {
 
                 // If the data is complete; write file
                 if(data.length == supply) {
-                    console.log('File ' + file + ' written.');
+                    console.log('Done. File ' + file + ' written.');
                     fs.writeFileSync(file, JSON.stringify(data));
                 }
             });
