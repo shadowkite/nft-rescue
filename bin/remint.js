@@ -5,8 +5,8 @@ let contractABI = require('../artifacts/contracts/MultichainNFT.sol/MultichainNF
 /** CONFIG **/
 let file = 'snapshot.json';
 
-// Export one of your metamask wallet (with required rights and funds, and paste the private key here
-// Click the three dots next to account, then Account Details > Export Private Key
+// Export one of your metamask wallet (with required rights and funds, and paste the private key here)
+// On metamask; Click the three dots next to account, then Account Details > Export Private Key
 let mintingWallet = '...';
 let newContract = '0x...';
 
@@ -24,7 +24,7 @@ const account = wallet.connect(provider);
 let contract = new ethers.Contract(newContract, contractABI.abi, account);
 
 /* Read snapshot */
-let data = fs.readFileSync('snapshot.json');
+let data = fs.readFileSync(file);
 let owners = JSON.parse(data);
 
 /* Start minting */
@@ -34,7 +34,8 @@ let mint = async function(owner, tokenId) {
 
 for(var i in owners) {
     console.log('Minting ' + owners[i].tokenId + ' to ' + owners[i].owner);
-    //mint(owners[i].address, owners[i].tokenId);
+    // Dry run by default, uncomment next line to actually mint
+    // mint(owners[i].address, owners[i].tokenId);
 }
 
 

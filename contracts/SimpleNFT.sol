@@ -4,11 +4,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "@dea-sg/layerzero/contracts/interfaces/ILayerZeroEndpoint.sol";
-import "@dea-sg/layerzero/contracts/interfaces/ILayerZeroReceiver.sol";
-import "./NonblockingReceiver.sol";
 
-contract SimpleNFT is ERC721Enumerable, Ownable, NonblockingReceiver {
+contract SimpleNFT is ERC721Enumerable, Ownable {
     using Strings for uint256;
 
     string private baseURI;
