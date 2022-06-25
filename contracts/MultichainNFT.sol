@@ -15,6 +15,7 @@ contract MultichainNFT is ERC721Enumerable, Ownable, NonblockingReceiver {
     event ReceiveNFT(uint16 _srcChainId, address _from, uint256 _tokenId);
 
     string private baseURI;
+    string private extension;
 
     /** Bridger wallet **/
     address public bridger;
@@ -33,7 +34,7 @@ contract MultichainNFT is ERC721Enumerable, Ownable, NonblockingReceiver {
 
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         string memory base = _baseURI();
-        return string(abi.encodePacked(base, _tokenId.toString(), '.json'));
+        return string(abi.encodePacked(base, _tokenId.toString(), extension));
     }
 
     function walletOfOwner(address _owner) public view returns (uint256[] memory) {
@@ -58,6 +59,10 @@ contract MultichainNFT is ERC721Enumerable, Ownable, NonblockingReceiver {
 
     function setBaseURI(string memory _base) external onlyOwner {
         baseURI = _base;
+    }
+
+    function setExtension(string memory ext) external onlyOwner {
+        extension = ext;
     }
 
     function setEndpoint(address _endpoint) public onlyOwner {

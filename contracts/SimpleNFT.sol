@@ -9,6 +9,7 @@ contract SimpleNFT is ERC721Enumerable, Ownable {
     using Strings for uint256;
 
     string private baseURI;
+    string private extension;
 
     /** Bridger wallet **/
     address public bridger;
@@ -21,7 +22,7 @@ contract SimpleNFT is ERC721Enumerable, Ownable {
 
     function tokenURI(uint256 _tokenId) public view override returns (string memory) {
         string memory base = _baseURI();
-        return string(abi.encodePacked(base, _tokenId.toString(), '.json'));
+        return string(abi.encodePacked(base, _tokenId.toString(), extension));
     }
 
     function walletOfOwner(address _owner) public view returns (uint256[] memory) {
@@ -46,6 +47,10 @@ contract SimpleNFT is ERC721Enumerable, Ownable {
 
     function setBaseURI(string memory _base) external onlyOwner {
         baseURI = _base;
+    }
+
+    function setExtension(string memory ext) external onlyOwner {
+        extension = ext;
     }
 
     function withdraw() public payable onlyOwner {
