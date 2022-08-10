@@ -1,7 +1,8 @@
 let {ethers} = require('ethers');
 let fs = require('fs');
 let contractABI = require('../abi/erc721.json');
-let oasisABI = require('../abi/oasis.json');
+let oasisABIV1 = require('../abi/oasisv1.json');
+let oasisABIV2 = require('../abi/oasisv2.json');
 
 let sleep = function(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -33,7 +34,11 @@ let getOasisOwner = async (oasisContract, tokenId) => {
         let orderInfo = null;
         let result = false;
 
-        let marketContract = new ethers.Contract(oasisContract, oasisABI, provider);
+        let marketContract = new ethers.Contract(oasisContract, oasisABIV2.abi, provider);
+        if(oasisContract === oasisContractV1) {
+            marketContract = new ethers.Contract(oasisContract, oasisABIV1.abi, provider);
+        }
+
 
         // Loop through orders and see which one is still active
         while(!result) {
