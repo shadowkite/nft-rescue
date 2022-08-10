@@ -10,7 +10,8 @@ let sleep = function(ms) {
 /** Config **/
 let file = 'snapshot.json';
 let readOasis = true;
-let oasisContract = '0x3b968177551a2aD9fc3eA06F2F41d88b22a081F7';
+let oasisContractV1 = '0x657061bf5D268F70eA3eB1BCBeb078234e5Df19d';
+let oasisContractV2 = '0x3b968177551a2aD9fc3eA06F2F41d88b22a081F7';
 
 // Enter contract address here
 let oldContract = '...';
@@ -22,16 +23,17 @@ let RPC_NETWORK_ID = 10000;
 /** Contract reader **/
 let provider = new ethers.providers.JsonRpcProvider(RPC_URL, RPC_NETWORK_ID);
 let contract = new ethers.Contract(oldContract, contractABI, provider);
-let marketContract = new ethers.Contract(oasisContract, oasisABI, provider);
 
 // Store ownership data
 let data = [];
 
-let getOasisOwner = async (tokenId) => {
+let getOasisOwner = async (oasisContract, tokenId) => {
     return new Promise(async resolve => {
         let i = 0;
         let orderInfo = null;
         let result = false;
+
+        let marketContract = new ethers.Contract(oasisContract, oasisABI, provider);
 
         // Loop through orders and see which one is still active
         while(!result) {
@@ -63,8 +65,8 @@ let main = async function() {
         contract.tokenByIndex(i).then((tokenId) => {
             let strTokenId = tokenId.toString();
             contract.ownerOf(strTokenId).then(async (owner) => {
-                if(readOasis && owner === oasisContract) {
-                    let seller = await getOasisOwner(strTokenId);
+                if(readOasis && (owner === oasisContractV2 || owner === oasisContractV1)) {
+                    let seller = await getOasisOwner(owner, strTokenId);
                     console.log(strTokenId, owner, seller);
                     data.push({owner: seller, tokenId: strTokenId});
                 } else {
